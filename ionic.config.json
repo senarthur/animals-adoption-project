@@ -1,0 +1,7 @@
+{
+  "name": "animals-adoptions-project",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
