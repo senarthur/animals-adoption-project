@@ -1,20 +1,35 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <div class="header">
+      <ion-title>
+        PET FRIENDLY <br>
+        <span>Bem vindo {{ user }}</span>
+      </ion-title>
+      <ion-icon name="settings-outline" size="large"></ion-icon>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="false">
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <h1>Animais em adoção</h1>
+    <div class="list">
+      <h3>Cadastrados recentemente</h3>
+      <div class="cards">
+        <app-cards nome="Thor" raca="Golden" img="./assets/golden.jpeg" ></app-cards>
+        <app-cards nome="Apolo" raca="Poodle" img="./assets/poodle.jpg" ></app-cards>
+        <app-cards nome="Rex" raca="Vira-Lata" img="./assets/vira-lata.png" ></app-cards>
+      </div>
+    </div>
+    <div class="list">
+      <h3>Pets próximos a você</h3>
+      <div class="cards">
+        <app-cards nome="Luke" raca="Vira-Lata" img="./assets/luke.png" ></app-cards>
+        <app-cards nome="Yoda" raca="Vira-Lata" img="./assets/yoda.png" ></app-cards>
+        <app-cards nome="Amora" raca="Pincher" img="./assets/amora.png" ></app-cards>
+      </div>
+    </div>
   </div>
 </ion-content>
+
+<app-footer></app-footer>

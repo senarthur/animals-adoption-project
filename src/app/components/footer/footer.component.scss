@@ -1,0 +1,32 @@
+ion-tabs {
+    z-index: 12;
+}
+
+ion-tab-bar {
+    --background: #F6F6F6;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: none;
+}
+
+ion-tab-button:hover {
+    ion-icon {
+        color: var(--background-primary);
+    }
+}
+
+.add-button {
+    ion-icon {
+        padding: 8px;
+        background-color: var(--background-primary);
+        color: white;
+        border-radius: 30px;
+    }
+}
+
+.add-button:hover {
+    ion-icon {
+        background-color: #24642b;
+        color: white;
+    }
+}
