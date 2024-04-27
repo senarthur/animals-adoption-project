@@ -1,0 +1,9 @@
+ion-toolbar {
+    --min-height: 10vh;
+    --background: var(--bg-primary);
+    --color: var(--color-primary-contrast);
+  
+    ion-title {
+      font-size: 25px;
+    }
+}

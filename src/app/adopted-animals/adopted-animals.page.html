@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="container">
+    <h2>Animais que você adotou</h2>
+    @for (animal of adoptedAnimals; track $index) {
+      <app-cards variant="variant" [nome]="animal.name" [raca]="animal.breed" [img]="animal.image"></app-cards>
+    }
+      @if (adoptedAnimals.length == 0) {
+        <p>Você ainda não adotou nenhum animal</p>
+      }
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

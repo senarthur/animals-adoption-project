@@ -1,64 +1,59 @@
+ion-header {
+  z-index: 20;
+}
+
 ion-toolbar {
-  --min-height: 25vh;
-  --background: var(--background-primary);
+  --min-height: 20vh;
+  --background: var(--bg-primary);
+  --color: var(--color-primary-contrast);
+  --padding-end: 30px;
 
-  .header {
-    display: flex;
-  }
+  ion-title {
+    font-size: 25px;
 
-  ion-icon {
-    padding-right: 30px;
-    cursor: pointer;
-  }
-  
-  ion-icon:hover {
-    color: black;
-  }
-
-  span {
-    font-size: 16px;
+    h1 {
+      margin-bottom: -10px;
+    }
+    
+    span {
+      font-size: 16px;
+    }
   }
 }
 
 ion-content { 
+  position: relative;
   z-index: 10;
-  top: -15px;
-  background: var(--background-primary);
-
+  background: var(--bg-primary);
+  
   #container {
-    background: var(--background-secondary);
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    background: var(--bg-secondary);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
     padding: 30px;
-    min-height: 100vh;
-    position: relative;
   }
   
-  h1 {
-    color: var(--color-title);
-    font-weight: 600;
+  h2 {
+    color: var(--color-primary);
     margin-bottom: 30px;
   }
 
   h3 {
-    color: var(--color-title);
+    color: var(--color-primary);
     font-weight: 600;
     font-size: 18px;
   }
+
+  .cards {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: 0;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
 }
 
-ion-content::part(background) {
-  background: none;
-}
 
-ion-content::shadow {
-  box-shadow: none;
-}
 
-ion-content::part(scroll) {
-  color: #fff;
-}
-
-.cards {
-  display: flex;
-}

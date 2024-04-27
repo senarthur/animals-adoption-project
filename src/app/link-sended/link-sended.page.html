@@ -1,0 +1,14 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" class="full-height d-flex-center" #content>
+    <h2>Recuperar Conta</h2>
+    <div class="content">
+      <p>
+        Um e-mail foi enviado para <span>{{ email }}</span> com as orientações de como
+        prosseguir para a recuperação da conta.
+      </p>
+      <ion-button type="submit" expand="block" [routerLink]="['/home']">VOLTAR PARA O LOGIN</ion-button>
+    </div>
+  </div>
+</ion-content>

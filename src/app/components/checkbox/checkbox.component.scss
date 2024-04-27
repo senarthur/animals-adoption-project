@@ -1,0 +1,17 @@
+ion-item {
+    --background: none;
+    --padding-start: 0;
+    ---border-style: hidden;
+    --inner-padding-top: 10px;
+    --border-style: default;
+    
+    ion-checkbox {
+        color: var(--color-primary);
+        justify-content: space-between;
+        --border-color: none;
+        --checkbox-background: var(--bg-secondary);
+        --border-color: var(--color-primary);
+        --checkbox-background-checked: var(--bg-primary);
+        --border-color-checked: var(--bg-primary);
+    }
+}

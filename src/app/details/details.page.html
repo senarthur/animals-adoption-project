@@ -1,0 +1,56 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <form>
+      <h2>{{ animal.name }}</h2>
+      <img [src]="animal.image" [alt]="animal.name">
+      <ion-list>
+        <ion-item>
+          <ion-input
+            label="Idade"
+            labelPlacement="floating"
+            [value]="animal.age"
+            [disabled]="true"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Gênero"
+            labelPlacement="floating"
+            [value]="animal.gender"
+            [disabled]="true"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Raça"
+            labelPlacement="floating"
+            [value]="animal.breed"
+            [disabled]="true"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Porte"
+            labelPlacement="floating"
+            [value]="animal.size"
+            [disabled]="true"
+          >
+          </ion-input>
+        </ion-item>
+        <h4>Vacinas</h4>
+        <app-checkbox-group>
+          @for (vaccine of animal.vaccines; track $index) {
+            <app-checkbox [onlyRead]="true" [checked]="true" [disabled]="true" [label]="vaccine"></app-checkbox>
+          }
+        </app-checkbox-group>
+        <ion-button expand="block" (click)="adopt()">Adotar</ion-button>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

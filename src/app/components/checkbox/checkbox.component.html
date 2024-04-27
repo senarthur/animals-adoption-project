@@ -1,0 +1,9 @@
+@if (onlyRead) {
+  <ion-item>
+    <ion-checkbox [disabled]="true" labelPlacement="start" [checked]="checked">{{ label }}</ion-checkbox>
+  </ion-item>
+} @else {
+  <ion-item (click)="CheckboxGroup.toggleValue(value)" button detail="false">
+    <ion-checkbox [disabled]="disabled" labelPlacement="start" [checked]="CheckboxGroup.isSelected(value)">{{ label }}</ion-checkbox>
+  </ion-item>
+}

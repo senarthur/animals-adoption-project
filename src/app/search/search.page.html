@@ -1,0 +1,25 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-searchbar #searchbar (change)="search(searchbar)"></ion-searchbar>
+    <div class="chips" #chips>
+      <app-chip (click)="onSelected(small)" #small text="Pequeno Porte"></app-chip>
+      <app-chip (click)="onSelected(medium)" #medium text="Médio Porte"></app-chip>
+      <app-chip (click)="onSelected(big)" #big text="Grande Porte"></app-chip>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container" #div>
+    @for (animal of animals; track $index) {
+      <app-cards [routerLink]="['/details', animal.id]" variant="variant" [nome]="animal.name" [raca]="animal.breed" [img]="animal.image" ></app-cards>
+    }
+    @if (isSearching) {
+      <p>Fim dos resultados</p>
+    } @else {
+      <p>Busque pelo seu animal favorito</p>
+    }
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

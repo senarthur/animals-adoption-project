@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <h2>Denunciar maus-tratos</h2>
+    <p>Caso você tenha informações sobre maus-tratos praticados por alguém, faça sua denúncias preenchendo o formulário abaixo ou ligue para o número 0800 61 8080</p>
+    <form [formGroup]="reportForm">
+      <ion-list >
+        <ion-item>
+          <ion-textarea
+            label="Denúncia"
+            labelPlacement="stacked"
+            placeholder="Detalhe sua denúncia aqui."
+            formControlName="message"
+          >
+          </ion-textarea>
+        </ion-item>
+        <ion-button (click)="makeReport()" type="submit" expand="block">FAZER DENÚNCIA</ion-button>
+      </ion-list>
+    </form>
+    <ion-toast
+      [isOpen]="reported"
+      message="Denúncia encaminhada com sucesso"
+      [duration]="5000"
+      (didDismiss)="setReport(false)"
+    ></ion-toast>
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

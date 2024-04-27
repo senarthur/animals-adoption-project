@@ -1,25 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { IonTabBar, IonTabButton, IonTabs, IonIcon } from '@ionic/angular/standalone';
+import { RouterLinkWithHref } from '@angular/router';
+import { IonTabBar, IonTabButton, IonTabs, IonIcon, IonBadge, IonFab, IonFabButton, IonFabList, IonFooter, IonToolbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { settingsOutline, person, home, add, search, notificationsOutline } from 'ionicons/icons';
+import { settingsOutline, person, home, add, search, notificationsOutline, chevronUp } from 'ionicons/icons';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
-  selector: 'app-footer',
+  selector: 'toolbar',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   standalone: true,
-  imports: [IonIcon, 
+  imports: [
+    IonToolbar, 
+    IonFooter, 
+    IonFabList, 
+    IonFabButton, 
+    IonFab, 
+    IonBadge, 
+    IonIcon, 
     IonTabs,
     IonTabBar,
-    IonTabButton
+    IonTabButton,
+    IonBadge,
+    RouterLinkWithHref
   ]
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { 
-    addIcons({ settingsOutline, person, home, add, search, notificationsOutline});
+  notifications: number = 0;
+
+  constructor(private notificationService: NotificationService) { 
+    addIcons({ settingsOutline, person, home, add, search, notificationsOutline, chevronUp});
   }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.notificationService.unreadedCount$.subscribe(count => {
+      this.notifications = count;
+    });
+  }
 }

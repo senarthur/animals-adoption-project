@@ -1,0 +1,87 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+      <ion-title>
+        PET FRIENDLY
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <h2>Criar Conta</h2>
+    <form #signUpForm [formGroup]="registerForm" (ngSubmit)="signUp()">
+      <ion-list>
+        <ion-item>
+          <ion-input
+            label="Nome Completo"
+            labelPlacement="floating"
+            [clearInput]="true"
+            formControlName="fullName"
+            id="register_form_fullName"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Data de Nascimento"
+            labelPlacement="floating"
+            type="date"
+            formControlName="birthDate"
+            id="register_form_age"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Telefone"
+            labelPlacement="floating"
+            type="number"
+            [clearInput]="true"
+            formControlName="phone"
+            id="register_form_phone"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="E-mail"
+            inputmode="email"
+            labelPlacement="floating"
+            [clearInput]="true"
+            formControlName="email"
+            id="register_form_email"
+            required
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Senha"
+            type="password"
+            labelPlacement="floating"
+            formControlName="password"
+            [id]="'registerForm_password'"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Confirmar Senha"
+            type="password"
+            labelPlacement="floating"
+            formControlName="confirmPassword"
+            [id]="'registerForm_confirm_password'"
+          >
+          </ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="block">Cadastrar</ion-button>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

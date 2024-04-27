@@ -1,35 +1,51 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <div class="header">
       <ion-title>
-        PET FRIENDLY <br>
+        <h1>PET FRIENDLY</h1>
         <span>Bem vindo {{ user }}</span>
       </ion-title>
-      <ion-icon name="settings-outline" size="large"></ion-icon>
-    </div>
-  </ion-toolbar>
+      @if (!darkMode) {
+        <ion-icon (click)="toggleDarkMode()" name="moon" size="large" slot="end"></ion-icon>
+      } @else {
+        <ion-icon (click)="toggleDarkMode()" name="sunny-outline" size="large" slot="end"></ion-icon>
+      }
+    </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="false">
+<ion-content [fullscreen]="true">
   <div id="container">
-    <h1>Animais em adoção</h1>
+    <h2>Animais em adoção</h2>
     <div class="list">
       <h3>Cadastrados recentemente</h3>
       <div class="cards">
-        <app-cards nome="Thor" raca="Golden" img="./assets/golden.jpeg" ></app-cards>
-        <app-cards nome="Apolo" raca="Poodle" img="./assets/poodle.jpg" ></app-cards>
-        <app-cards nome="Rex" raca="Vira-Lata" img="./assets/vira-lata.png" ></app-cards>
+        @for (item of animals$ | async; track $index) {
+          @if (item.userId == '') {
+            <app-cards [routerLink]="['/details', item.id]" nome={{item.name}} raca={{item.breed}} img={{item.image}} ></app-cards>
+          }
+        }
       </div>
     </div>
     <div class="list">
-      <h3>Pets próximos a você</h3>
-      <div class="cards">
-        <app-cards nome="Luke" raca="Vira-Lata" img="./assets/luke.png" ></app-cards>
-        <app-cards nome="Yoda" raca="Vira-Lata" img="./assets/yoda.png" ></app-cards>
-        <app-cards nome="Amora" raca="Pincher" img="./assets/amora.png" ></app-cards>
-      </div>
+      @if (goldenPets.length > 0) {
+        <h3>Golden</h3>
+        <div class="cards">
+          @for (golden of goldenPets; track $index) {
+            <app-cards [routerLink]="['/details', golden.id]" nome={{golden.name}} raca={{golden.breed}} img={{golden.image}} ></app-cards>
+          }
+        </div>
+      }
+    </div>
+    <div class="list">
+      @if (sdrPets.length > 0) {
+        <h3>SRD</h3>
+        <div class="cards">
+          @for (sdr of sdrPets; track $index) {
+            <app-cards [routerLink]="['/details', sdr.id]" nome={{sdr.name}} raca={{sdr.breed}} img={{sdr.image}} ></app-cards>
+          }
+        </div>
+      }
     </div>
   </div>
 </ion-content>
 
-<app-footer></app-footer>
+<toolbar></toolbar>

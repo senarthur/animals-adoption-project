@@ -1,0 +1,108 @@
+ion-content {
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        font-weight: bold;
+        color: var(--color-primary-contrast);
+        margin-bottom: 30px;
+        
+        img {
+            width: 50px;
+        }
+    }
+
+    p {
+        text-align: center;
+        color: var(--color-primary-contrast);
+        font-size: 14px;
+    }
+
+    form {
+        width: 80%;
+        
+        ion-list {
+            background: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+
+            ion-item {
+                --background: none;
+                --padding-start: 0;
+                --inner-padding-end: 0;
+                --border-color: var(--bg-secondary);
+        
+                ion-input {
+                    --background: transparent;
+                    --color: var(--color-primary-contrast);
+                    --highlight-color-focused: var(--color-primary-contrast);
+                }
+
+                ion-icon {
+                    color: var(--color-primary-contrast);
+                    
+                    &.show-off {
+                        display: none;
+                    }
+                }
+            }
+
+            a {
+                display: block;
+                text-align: right;
+                color: var(--color-primary-contrast);
+                font-size: 12px;
+            }
+
+            ion-button {
+                --background: var(--bg-secondary);
+                --color: var(--bg-primary);
+                --border-radius: 30px;
+                --padding-top: 15px;
+                --padding-bottom: 15px;
+                
+                font-weight: bold;
+
+                img {
+                    width: 20px;
+                    display: block;
+                    margin-right: 10px;
+                }
+
+                &.login-google {
+                    --color: #000000;
+                    font-size: 12px;
+                    letter-spacing: 0;
+                }
+            }
+
+            span {
+                display: block;
+                margin: 0 auto;
+                margin-top: -15px;
+                color: var(--color-danger);
+            }
+        }
+
+        .sign-up {
+            border-bottom: 1px solid var(--bg-secondary);
+            padding-bottom: 2px;
+        }
+    }
+    
+}
+
+/* Utils */
+
+.d-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.full-height {
+    height: 100%;
+}

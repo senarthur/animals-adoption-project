@@ -1,0 +1,24 @@
+ion-content { 
+  z-index: 10;
+  background: var(--bg-primary);
+  
+  #container {
+      min-height: 100%;
+      background: var(--bg-secondary);
+      border-top-left-radius: 40px;
+      border-top-right-radius: 40px;
+      padding: 30px;
+
+      h2 {
+        color: var(--color-primary);
+        text-align: center;
+        margin-bottom: 35px;
+      }
+      
+      p {
+          margin-top: 20px;
+          text-align: center;
+          color: var(--color-secondary);
+      }
+  }
+}

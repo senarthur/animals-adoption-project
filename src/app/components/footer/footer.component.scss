@@ -1,32 +1,35 @@
+ion-toolbar {
+    --border-width: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
 ion-tabs {
     z-index: 12;
+    
 }
 
 ion-tab-bar {
-    --background: #F6F6F6;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border: none;
+    --background: var(--bg-footer);
 }
 
 ion-tab-button:hover {
     ion-icon {
-        color: var(--background-primary);
+        color: var(--bg-primary);
     }
 }
 
 .add-button {
     ion-icon {
         padding: 8px;
-        background-color: var(--background-primary);
-        color: white;
+        background-color: var(--bg-primary);
+        color: var(--bg-footer);
         border-radius: 30px;
     }
 }
 
 .add-button:hover {
     ion-icon {
-        background-color: #24642b;
         color: white;
     }
 }

@@ -18,6 +18,7 @@ export class CardsComponent  implements OnInit {
   @Input("nome") name: string = '';
   @Input("raca") breed: string = '';
   @Input("img") src: string = 'https://ionicframework.com/docs/img/demos/card-media.png';
+  @Input() variant:string = '';
   
   constructor() { }
 

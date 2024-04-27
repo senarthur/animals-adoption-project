@@ -1,19 +1,26 @@
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="home" size="large"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="profile">
-      <ion-icon name="person" size="large"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button class="add-button" tab="add-button">
-      <ion-icon name="add" size="large"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="search">
-      <ion-icon name="search" size="large"></ion-icon>
-    </ion-tab-button>
-    <ion-tab-button tab="notification">
-      <ion-icon name="notifications-outline" size="large"></ion-icon>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button routerLink="/home">
+          <ion-icon name="home" size="large"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/profile">
+          <ion-icon name="person" size="large"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button class="add-button" routerLink="/add-animal">
+          <ion-icon name="add" size="large"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/search">
+          <ion-icon name="search" size="large"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/notifications">
+          @if (notifications !== 0) {
+            <ion-badge color="danger">{{ notifications }}</ion-badge>
+          }
+          <ion-icon name="notifications-outline" size="large"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

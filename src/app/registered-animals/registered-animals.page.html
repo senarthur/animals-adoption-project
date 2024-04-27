@@ -1,0 +1,17 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="container">
+    <h2 (click)="teste()">Seus animais cadastrados</h2>
+    @for (animal of registeredAnimals; track $index) {
+      @if (animal.userId == '') {
+        <app-cards [routerLink]="['/registered-animals-details', animal.id]" variant="variant" [nome]="animal.name" [raca]="animal.breed" [img]="animal.image" ></app-cards>
+      }
+    }
+      @if (registeredAnimals.length == 0) {
+        <p>Você ainda não cadastrou nenhum animal</p>
+      }
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

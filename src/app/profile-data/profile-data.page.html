@@ -1,0 +1,73 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <form [formGroup]="personalData">
+      <h2>Dados Pessoais</h2>
+      <ion-list>
+        <ion-item>
+          <label for="photo">
+            <img [src]="user.photoUrl" alt="Foto do Perfil">
+          </label>
+          <input (change)="onFileSelected($event)" formControlName="image" type="file" name="photo" accept="image/*" id="photo">
+        </ion-item>
+        @if (progress >= 0) {
+          <ion-progress-bar #progressBar [value]="progress"></ion-progress-bar>
+        }
+
+        <ion-item>
+          <ion-input
+            label="Nome"
+            labelPlacement="floating"
+            formControlName="fullName"
+            [value]="user.name"
+            id="profile_fullName"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Idade"
+            labelPlacement="floating"
+            [value]="user.age"
+            [disabled]="true"
+            id="profile_age"
+            #age
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Telefone"
+            labelPlacement="floating"
+            [value]="user.phone"
+            formControlName="phone"
+            id="profile_phone"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="E-mail"
+            labelPlacement="floating"
+            [value]="user.email"
+            formControlName="email"
+            id="profile_email"
+          >
+          </ion-input>
+        </ion-item>
+
+        @if (!isOnEdit) {
+          <ion-button (click)="edit()" expand="block">Editar</ion-button>
+        } @else {
+          <ion-button (click)="saveChanges()" expand="block">Salvar Alterações</ion-button>
+        }
+      </ion-list>
+    </form>
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

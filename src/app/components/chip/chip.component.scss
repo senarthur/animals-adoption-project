@@ -1,0 +1,15 @@
+ion-chip {    
+    ion-icon {
+        display: none;
+        color: var(--color-primary);
+    }
+
+    &.mark {
+        --background: var(--bg-secondary);
+        --color: var(--color-primary);
+
+        ion-icon {
+            display: block; 
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" #content>
+
+    @for (notification of notifications; track $index) {
+      @if (!notification.read) {
+        <notification-item class="no-read" [isReaded]="notification.read" [index]="$index" [content]="notification.text"></notification-item>
+      } @else {
+        <notification-item [isReaded]="notification.read" [index]="$index" [content]="notification.text"></notification-item>
+      }
+    }
+  </div>
+</ion-content>
+
+<toolbar></toolbar>

@@ -1,0 +1,53 @@
+<ion-content [fullscreen]="true">
+    <div class="full-height d-flex-center">
+      <div class="header">
+        <h1>PET FRIENDLY</h1>
+        <!-- <img src="../../assets/icon/logo.svg" alt="logo" loading="lazy"> -->
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+        <ion-list>
+          <ion-item>
+            <ion-input
+              label="Usuário"
+              labelPlacement="floating"
+              [clearInput]="true"
+              placeholder="Digite o nome de usuário"
+              formControlName="email"
+            >
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              label="Senha"
+              [type]="inputType"
+              labelPlacement="floating"
+              placeholder="Digite sua senha"
+              formControlName="password"
+              #password
+            >
+            </ion-input>
+            @if (passwordView) {
+              <ion-icon (click)="tooglePasswordView()" name="eye-off"></ion-icon>
+            } @else {
+              <ion-icon (click)="tooglePasswordView()" name="eye"></ion-icon>
+            }
+          </ion-item>
+          
+          <a [routerLink]="['/recover-password']"> Esqueceu a senha?</a>
+          <ion-button type="submit" expand="block">ENTRAR</ion-button>
+          <p>OU</p>
+          <ion-button class="login-google" (click)="signInWithGoogle()">
+            <img src="../../assets/icon/google-logo.svg" alt="google-logo">
+            Entrar com o Google
+          </ion-button>
+        </ion-list>
+        <p>Ainda não possui uma conta? <span class="sign-up" [routerLink]="['/sign-up']">Cadastre-se</span></p>
+      </form>
+      <ion-toast
+        [isOpen]="!isUserValid"
+        message="Usuário ou senha inválidos"
+        [duration]="5000"
+        (didDismiss)="setUserValid(false)"
+      ></ion-toast>
+    </div>
+</ion-content>

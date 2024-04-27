@@ -1,0 +1,33 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <div class="profile-principal">
+      <img [src]="user.photoUrl">
+      <p>{{ user.name }}</p>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+      <div class="list">
+        <ion-item button detail="true" [routerLink]="['/profile-data']">
+          <ion-label>Dados Pessoais</ion-label>
+        </ion-item>
+        <br>
+        <ion-item detail="true" [routerLink]="['/registered-animals']">
+          <ion-label>Animais cadastrados</ion-label>
+        </ion-item>
+        <br>
+        <ion-item detail="true" [routerLink]="['/adopted-animals']">
+          <ion-label>PETS adotados</ion-label>
+        </ion-item>
+        <br>
+        <ion-item detail="true" [routerLink]="['/report']">
+          <ion-label>Denunciar maus-tratos</ion-label>
+        </ion-item>
+      </div>
+      <p (click)="signOut()">Sair</p>
+  </div>
+</ion-content>
+
+<toolbar></toolbar>
