@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '../components/header/header.component';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 
 @Component({
   selector: 'app-link-sended',
@@ -23,10 +23,10 @@ export class LinkSendedPage implements OnInit {
 
   email: string = '';
   
-  constructor(private loginService: LoginServiceService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.email = this.loginService.emailForResetPassword;
+    this.email = this.authService.emailForResetPassword;
   }
 
 }

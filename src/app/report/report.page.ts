@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 
 @Component({
   selector: 'app-report',
@@ -25,7 +25,7 @@ export class ReportPage implements OnInit {
   reported: boolean = false;
   reportForm!: FormGroup;
   
-  constructor(private formService: FormService) { }
+  constructor(private animalService: AnimalService) { }
 
   ngOnInit() {
     this.reportForm = new FormGroup({
@@ -34,11 +34,9 @@ export class ReportPage implements OnInit {
   }
 
   makeReport() {
-    console.log(this.reportForm.valid);
     if(!this.reportForm.valid) return;
 
-    console.log('Passou')
-    this.formService.makeReport(this.reportForm.get('message')?.value);
+    this.animalService.makeReport(this.reportForm.get('message')?.value);
     this.reportForm.reset();
     this.reported = true;
   }

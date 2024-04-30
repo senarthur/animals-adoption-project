@@ -8,7 +8,7 @@ import { doc } from 'firebase/firestore';
   providedIn: 'root'
 })
 
-export class LoginServiceService {
+export class AuthService {
 
   private fireAuth = inject(Auth);
   private firestore = inject(Firestore);

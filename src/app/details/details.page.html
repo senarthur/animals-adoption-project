@@ -43,13 +43,25 @@
         </ion-item>
         <h4>Vacinas</h4>
         <app-checkbox-group>
-          @for (vaccine of animal.vaccines; track $index) {
-            <app-checkbox [onlyRead]="true" [checked]="true" [disabled]="true" [label]="vaccine"></app-checkbox>
+          @for (vaccine of vaccines.values; track $index) {
+            @if (animal.vaccines.includes(vaccines.values[$index])) {
+              <app-checkbox [onlyRead]="true" [checked]="true" [disabled]="true" [label]="vaccine"></app-checkbox>
+            } @else {
+              <app-checkbox [onlyRead]="true" [checked]="false" [disabled]="true" [label]="vaccine"></app-checkbox>
+            }
           }
         </app-checkbox-group>
         <ion-button expand="block" (click)="adopt()">Adotar</ion-button>
       </ion-list>
     </form>
+    <div class="more-animals">
+      @if (moreAnimals.length > 0) {
+        <h3>Mais de {{ animal.breed }} </h3>
+        @for (animal of moreAnimals; track $index) {
+          <app-cards [routerLink]="['/details', animal.id]" variant="variant" [nome]="animal.name" [raca]="animal.breed" [img]="animal.image" ></app-cards>
+        }
+      }
+    </div>
   </div>
 </ion-content>
 

@@ -8,7 +8,7 @@ import { close, checkmark } from 'ionicons/icons';
 import { FooterComponent } from '../components/footer/footer.component';
 import { CardsComponent } from '../components/cards/cards.component';
 import { IAnimal } from '../interfaces/animal.interface';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 import { RouterLink } from '@angular/router';
 import { ChipComponent } from '../components/chip/chip.component';
 import { LoadingController } from '@ionic/angular/standalone';
@@ -33,11 +33,12 @@ export class SearchPage implements OnInit {
   animals: IAnimal[] = [];
   isSearching: boolean = false;
 
+  @ViewChildren('all') all?: QueryList<ChipComponent>;
   @ViewChildren('small') small?: QueryList<ChipComponent>;
   @ViewChildren('medium') medium?: QueryList<ChipComponent>;
   @ViewChildren('big') big?: QueryList<ChipComponent>;
   
-  constructor(private formService: FormService, private loadingController: LoadingController) { 
+  constructor(private animalService: AnimalService, private loadingController: LoadingController) { 
     addIcons({ close, checkmark })
   }
 
@@ -53,10 +54,11 @@ export class SearchPage implements OnInit {
       return;
     }
 
-    if(this.small && this.medium && this.big) {
+    if(this.small && this.medium && this.big && this.all) {
       this.small.first.selected = false;
       this.medium.first.selected = false;
       this.big.first.selected = false;
+      this.all.first.selected = false;
     }
     
     this.animals = [];
@@ -64,8 +66,17 @@ export class SearchPage implements OnInit {
 
     const loading = await this.loadingController.create();
     await loading.present();
+
+    if(event.text == 'Tudo') {
+      this.animalService.getAnimals().subscribe( animals =>
+        this.animals = animals.filter((animal) => animal.userId == '')
+      )
+      loading.dismiss();
+      this.isSearching = true;
+      return;
+    }
     
-    this.formService.getAnimalBySize(event.text).then(animals => {
+    this.animalService.getAnimalBySize(event.text).then(animals => {
       animals?.forEach(animal => {
         this.animals.push({...animal.data(), id: animal.id } as IAnimal);
       })
@@ -90,7 +101,7 @@ export class SearchPage implements OnInit {
     const loading = await this.loadingController.create();
     await loading.present();
     
-    this.formService.getAnimalByName(name).then(animals => {
+    this.animalService.getAnimalByName(name).then(animals => {
       animals?.forEach(animal => {
         this.animals.push({...animal.data(), id: animal.id } as IAnimal);
       })

@@ -6,7 +6,7 @@ import { FooterComponent } from '../components/footer/footer.component';
 import { CardsComponent } from '../components/cards/cards.component';
 import { IAnimal, createAnimal } from '../interfaces/animal.interface';
 import { HeaderComponent } from '../components/header/header.component';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -29,13 +29,13 @@ export class RegisterAnimalsPage implements OnInit {
   uid: string | undefined = '';
   registeredAnimals: IAnimal[] = []
 
-  constructor(private _formService: FormService){}
+  constructor(private animalService: AnimalService){}
 
   ngOnInit(): void {
-    const auth = this._formService.getAuth();
+    const auth = this.animalService.getAuth();
     this.uid = auth.currentUser?.uid;
     if (this.uid) {
-      this._formService.getRegisteredPetsByUser(this.uid).then(animals => {
+      this.animalService.getRegisteredPetsByUser(this.uid).then(animals => {
         animals?.forEach(animal => {
           const id = animal.id;
           const animalData: IAnimal = animal.data() as IAnimal;
@@ -47,9 +47,4 @@ export class RegisterAnimalsPage implements OnInit {
       });
     }
   }
-
-  teste() {
-    console.log(this.uid, this.registeredAnimals);
-  }
-  
 }

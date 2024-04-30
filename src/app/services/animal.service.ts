@@ -3,17 +3,18 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IBreed } from '../interfaces/breed.interface';
 import { Firestore, collectionData } from '@angular/fire/firestore';
-import { addDoc, and, collection, deleteDoc, doc, getDoc, getDocs, or, query, updateDoc, where } from 'firebase/firestore';
+import { Timestamp, addDoc, and, collection, deleteDoc, doc, getDoc, getDocs, limit, or, query, updateDoc, where } from 'firebase/firestore';
 
 import { IAnimal, ISize, IVaccines, createAnimal } from '../interfaces/animal.interface';
 import { Auth } from '@angular/fire/auth';
-import { IUser, createUser } from '../interfaces/user.interface';
+import { IUser } from '../interfaces/user.interface';
 import { Preferences } from '@capacitor/preferences';
+import { Time } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FormService {
+export class AnimalService {
 
   private _firestore = inject(Firestore);
   private _auth = inject(Auth);
@@ -28,8 +29,7 @@ export class FormService {
   private _reports_collection = collection(this._firestore, 'reports');
 
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   async checkAppMode() {
     const checkIsDarkMode = await Preferences.get({key: 'darkModeActivated'});
@@ -60,6 +60,23 @@ export class FormService {
   getVaccines(): Observable<IVaccines[]> {
     return collectionData(this._vaccines_collection) as Observable<IVaccines[]>;
   }
+
+  async getRecentlyRegistereds() {
+     // Pega os pets registrados nos últimos 15 dias, a partir do dia e horário atual
+
+    const date: Date = Timestamp.now().toDate(); // Converto o tempo atual para o Tipo Date
+    const seconds: number = date.getSeconds() - 60*60*24*15; // Pego os segundos e subtraio 15 dias dele
+    date.setSeconds(seconds);
+    const fromDate: Timestamp = Timestamp.fromDate(date);
+    try {
+      const q = query(this._animals_collection, and(where('registeredAt', '>=', fromDate), where('registeredAt', '<=', Timestamp.now())), limit(10));
+      const snapshot = await getDocs(q);
+      return snapshot;
+    } catch(error) {
+      console.log(error);
+      return null;
+    }
+  }
   
   async getAnimalById(id: string) {
     try {
@@ -72,7 +89,18 @@ export class FormService {
     }
   }
 
-  async getAnimalBySize(size: string) {
+  async getAnimalBySize(size: string, limite?: number | undefined) {
+    if(limite) {
+      try {
+        const q = query(this._animals_collection, and(where("size", "==", size), where("userId", "==", "")), limit(limite));
+        const snapshot = getDocs(q);
+        return snapshot;
+      } catch(error) {
+        console.log("Erro ao realizar a consulta");
+        return null;
+      }
+    } 
+
     try {
       const q = query(this._animals_collection, and(where("size", "==", size), where("userId", "==", "")));
       const snapshot = getDocs(q);
@@ -83,7 +111,18 @@ export class FormService {
     }
   }
 
-  async getAnimalByName(name: string) {
+  async getAnimalByName(name: string, limite?: number | undefined) {
+    if(limite) {
+      try {
+        const q = query(this._animals_collection, and(or(where("name", "==", name), where("breed", "==", name)), where("userId", "==", "")), limit(limite));
+        const snapshot = getDocs(q);
+        return snapshot;
+      } catch(error) {
+        console.log("Erro ao realizar a consulta");
+        return null;
+      }
+    }
+
     try {
       const q = query(this._animals_collection, and(or(where("name", "==", name), where("breed", "==", name)), where("userId", "==", "")));
       const snapshot = getDocs(q);
@@ -122,7 +161,9 @@ export class FormService {
 
   /* POST METHOD - FIREBASE API */
   registerAnimal(animal: IAnimal) {
-    return addDoc(this._animals_collection, animal);
+    // Pega o tempo atual
+    const time: Timestamp = Timestamp.fromDate(animal.registeredAt);
+    return addDoc(this._animals_collection, { ...animal, registeredAt: time});
   }
 
   makeReport(reportMessage: string) {
@@ -141,5 +182,16 @@ export class FormService {
 
   async deleteAnimal(id: string) {
     return await deleteDoc(doc(this._firestore, 'animals', id));
+  }
+
+  async teste() {
+    try {
+      const q = query(this._animals_collection, where("name", "==", 'Snow'));
+      const snapshot = await getDocs(q);
+      return snapshot;
+    } catch(error) {
+      console.log("Erro ao realizar a consulta");
+      return null;
+    }
   }
 }

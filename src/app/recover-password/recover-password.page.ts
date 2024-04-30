@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from '../components/header/header.component';
 import { Router, RouterLink } from '@angular/router';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 
 @Component({
   selector: 'app-recover-password',
@@ -25,7 +25,7 @@ import { LoginServiceService } from '../services/loginService.service';
 export class RecoverPasswordPage implements OnInit {
   formGroup!: FormGroup;
 
-  constructor(private loginService: LoginServiceService, private route: Router, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private route: Router) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({
@@ -35,8 +35,8 @@ export class RecoverPasswordPage implements OnInit {
 
   sendLinkReset() {
     if(this.formGroup.valid) {
-      this.loginService.emailForResetPassword = this.formGroup.value.email;
-      this.loginService.resetPassword(this.formGroup.value.email).then(() => {
+      this.authService.emailForResetPassword = this.formGroup.value.email;
+      this.authService.resetPassword(this.formGroup.value.email).then(() => {
         this.formGroup.reset();
         this.route.navigateByUrl('/link-sended');
       }).catch(err => {

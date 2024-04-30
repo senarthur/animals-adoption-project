@@ -1,7 +1,12 @@
+.background {
+    background-color: var(--bg-secondary);
+}
+
 ion-toolbar {
     --border-width: 0;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
 
 ion-tabs {

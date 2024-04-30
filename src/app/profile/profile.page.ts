@@ -9,10 +9,10 @@ import { chevronForward } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Router, RouterLink } from '@angular/router';
 import { LoadingController } from '@ionic/angular/standalone';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 import { IUser, createUser } from '../interfaces/user.interface';
-import { Auth, GoogleAuthProvider } from '@angular/fire/auth';
-import { FormService } from '../services/form.service';
+import { Auth } from '@angular/fire/auth';
+import { AnimalService } from '../services/animal.service';
 
 @Component({
   selector: 'app-profile',
@@ -34,8 +34,8 @@ export class ProfilePage implements OnInit {
 
   
   constructor(private loadingController: LoadingController,
-    private loginService: LoginServiceService,
-    private formService: FormService,
+    private authService: AuthService,
+    private animalService: AnimalService,
     private auth: Auth,
     private router: Router) { 
     addIcons({ chevronForward });
@@ -44,7 +44,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     const uid = this.auth.currentUser?.uid;
     if(uid) {
-      this.formService.getUser(uid).then(userResponse => {
+      this.animalService.getUser(uid).then(userResponse => {
         this.user = userResponse.data() as IUser;
       })
     }
@@ -53,7 +53,7 @@ export class ProfilePage implements OnInit {
   async signOut() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.loginService.signOut().then(() => {
+    this.authService.signOut().then(() => {
       loading.dismiss();
       this.router.navigate(['/login']);
     })

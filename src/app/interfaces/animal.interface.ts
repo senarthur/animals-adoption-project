@@ -9,6 +9,7 @@ export interface IAnimal {
     size: string,
     vaccines: string[],
     gender: string,
+    registeredAt: Date
 }
 
 export interface ISize {
@@ -17,6 +18,12 @@ export interface ISize {
 
 export interface IVaccines {
     values: string[],
+}
+
+export function createVaccines(): IVaccines {
+    return {
+        values: [],
+    }
 }
 
 export function createAnimal() {
@@ -31,5 +38,6 @@ export function createAnimal() {
         size: '',
         vaccines: [],
         gender: '',
+        registeredAt: new Date()
     }
 }

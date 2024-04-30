@@ -6,7 +6,7 @@ import { FooterComponent } from '../components/footer/footer.component';
 
 import { addIcons } from 'ionicons';
 import { cameraOutline } from 'ionicons/icons';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 import { IBreed } from '../interfaces/breed.interface';
 import { Subscription } from 'rxjs';
 import { CheckboxGroupComponent } from '../components/checkbox-group/checkbox-group/checkbox-group.component';
@@ -17,6 +17,7 @@ import { Storage, uploadBytesResumable } from '@angular/fire/storage';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { HeaderComponent } from '../components/header/header.component';
 import { IUser, createUser } from '../interfaces/user.interface';
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-add-animal',
@@ -36,7 +37,7 @@ import { IUser, createUser } from '../interfaces/user.interface';
 })
 export class AddAnimalPage implements OnInit, OnDestroy {
   
-  private _formService = inject(FormService);
+  // private _formService = inject(AnimalService);
   private _storage = inject(Storage);
   
   animal: IAnimal = createAnimal();
@@ -54,26 +55,26 @@ export class AddAnimalPage implements OnInit, OnDestroy {
   /* Subscribers */ 
   breeds: IBreed[] = [];
   breedsSubs: Subscription | undefined;
-  animals$ = this._formService.getAnimals();
-  sizes$ = this._formService.getSizes();
-  vaccines$ = this._formService.getVaccines();
+  animals$ = this.animalService.getAnimals();
+  sizes$ = this.animalService.getSizes();
+  vaccines$ = this.animalService.getVaccines();
 
   /* Link to Uploaded Image */
   private imageUrl: string = '';
   
   
-  constructor(private form: FormService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private animalService: AnimalService, private formBuilder: FormBuilder, private router: Router) {
     addIcons({ cameraOutline });
   }
   
   ngOnInit() {
-    this.breedsSubs = this.form.getAllBreeds().subscribe((breedResponse) => {
+    this.breedsSubs = this.animalService.getAllBreeds().subscribe((breedResponse) => {
       this.breeds = breedResponse;
     });
 
-    this.uid = this._formService.getAuth().currentUser?.uid;
+    this.uid = this.animalService.getAuth().currentUser?.uid;
     if(this.uid) {
-      this._formService.getUser(this.uid).then(user => {
+      this.animalService.getUser(this.uid).then(user => {
         this.uid = user.id;
         this.user = user.data() as IUser;
       })
@@ -89,7 +90,7 @@ export class AddAnimalPage implements OnInit, OnDestroy {
       image: [null,Validators.required]
     })
 
-    this._formService.checkAppMode();
+    this.animalService.checkAppMode();
 
   }
 
@@ -133,17 +134,19 @@ export class AddAnimalPage implements OnInit, OnDestroy {
   async onSubmit() {
     if (!this.formData.valid) return
     const animal = this.formData.value as IAnimal; 
+    const time: Date = Timestamp.now().toDate();
     animal.userId = '';
     if (this.imageUrl && this.uid) {
       animal.image = this.imageUrl;
       animal.registerId = this.uid;
+      animal.registeredAt = time;
     }
     try {
-      const doc = await this._formService.registerAnimal(animal);
+      const doc = await this.animalService.registerAnimal(animal);
       this.animal.id = doc.id;
       this.user.registeredPets.push(this.animal.id);
       if(this.uid) {
-        await this._formService.updateUser(this.uid, this.user);
+        await this.animalService.updateUser(this.uid, this.user);
       }
       this.formData.reset();
       this.router.navigateByUrl('/home');

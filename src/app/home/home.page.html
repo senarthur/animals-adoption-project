@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" class="ion-no-border">
+<ion-header class="ion-no-border">
   <ion-toolbar>
       <ion-title>
         <h1>PET FRIENDLY</h1>
@@ -16,14 +16,16 @@
   <div id="container">
     <h2>Animais em adoção</h2>
     <div class="list">
-      <h3>Cadastrados recentemente</h3>
-      <div class="cards">
-        @for (item of animals$ | async; track $index) {
-          @if (item.userId == '') {
-            <app-cards [routerLink]="['/details', item.id]" nome={{item.name}} raca={{item.breed}} img={{item.image}} ></app-cards>
+      @if (animals.length > 0) {
+        <h3>Cadastrados recentemente</h3>
+        <div class="cards">
+          @for (animal of animals; track $index) {
+            @if (animal.userId == '') {
+              <app-cards [routerLink]="['/details', animal.id]" nome={{animal.name}} raca={{animal.breed}} img={{animal.image}} ></app-cards>
+            }
           }
-        }
-      </div>
+        </div>
+      }
     </div>
     <div class="list">
       @if (goldenPets.length > 0) {

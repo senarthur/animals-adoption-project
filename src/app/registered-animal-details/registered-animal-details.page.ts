@@ -5,10 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { IAnimal, createAnimal } from '../interfaces/animal.interface';
 import { IUser, createUser } from '../interfaces/user.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
-import { deleteDoc, doc } from 'firebase/firestore';
 import { CheckboxGroupComponent } from '../components/checkbox-group/checkbox-group/checkbox-group.component';
 import { CheckboxComponent } from '../components/checkbox/checkbox.component';
 
@@ -36,16 +35,16 @@ export class RegisteredAnimalsDetailsPage implements OnInit {
   user: IUser = createUser();
   uid: string | undefined = '';
   
-  constructor(private activatedRoute: ActivatedRoute, private _formService: FormService, private router: Router) { 
+  constructor(private activatedRoute: ActivatedRoute, private animalService: AnimalService, private router: Router) { 
     this.id = this.activatedRoute.snapshot.paramMap.get('id') || '';
     this.getAnimal(this.id);
   }
 
   ngOnInit(): void {
-    const auth = this._formService.getAuth();
+    const auth = this.animalService.getAuth();
     this.uid = auth.currentUser?.uid;
     if(this.uid) {
-      this._formService.getUser(this.uid).then(user => {
+      this.animalService.getUser(this.uid).then(user => {
         this.user = user.data() as IUser;
       })
     }
@@ -53,18 +52,18 @@ export class RegisteredAnimalsDetailsPage implements OnInit {
 
   async getAnimal(id: string) {
     try {
-      this.animal = await this._formService.getAnimalById(id) as IAnimal;
+      this.animal = await this.animalService.getAnimalById(id) as IAnimal;
     } catch(error) {
       console.log(error);
     }
   }
 
   async deleteAnimal() {
-    this._formService.deleteAnimal(this.id).then(() => {
+    this.animalService.deleteAnimal(this.id).then(() => {
       const index = this.user.registeredPets.indexOf(this.id);
       this.user.registeredPets.splice(index, 1);
       if(this.uid) {
-        this._formService.updateUser(this.uid, this.user)
+        this.animalService.updateUser(this.uid, this.user)
       }
       this.router.navigateByUrl('/home');
     })

@@ -24,4 +24,5 @@ body {
 
 ion-content::part(background) {
     background: none;
+    z-index: 0;
 }

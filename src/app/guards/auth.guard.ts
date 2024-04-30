@@ -1,11 +1,11 @@
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 import { inject } from '@angular/core';
 
 export const AuthGuard: CanActivateFn = (route, state) => {
 
   const router = inject(Router);
-  const auth = inject(LoginServiceService);
+  const auth = inject(AuthService);
   
   return new Promise<boolean>(resolve => {
     auth.getAuth().onAuthStateChanged(user => {

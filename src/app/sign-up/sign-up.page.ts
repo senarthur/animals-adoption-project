@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonInput, IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular/standalone';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { IUser, createUser } from '../interfaces/user.interface';
+import { passwordMatchValidator } from './password.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -30,35 +31,29 @@ export class SignUpPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
     private loadingController: LoadingController, 
-    private loginService: LoginServiceService,
+    private authService: AuthService,
     private router: Router) { }
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      fullName: ['', Validators.required],
-      birthDate: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    })
-
-    const formControls = this.registerForm.controls;
-    Object.keys(formControls).forEach(key => {
-    const control = formControls[key];
-    const uniqueId = 'registerForm_' + key; // Adicionando 'registerForm_' como prefixo
-    console.log(control);
-});
+    this.registerForm = new FormGroup({
+      fullName: new FormControl('', Validators.required),
+      birthDate: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+    });
   }
 
   async signUp() {
     const loading = await this.loadingController.create();
     await loading.present();
    
+    console.log(this.registerForm)
     if (this.registerForm.valid) {
         this.saveUser();
-        await this.loginService.registerUser(this.registerForm.value.email, this.registerForm.value.password).then((userCredential) => {
-        this.loginService.saveUserBasicDetails(this.user, userCredential).then(() => {
+        await this.authService.registerUser(this.registerForm.value.email, this.registerForm.value.password).then((userCredential) => {
+        this.authService.saveUserBasicDetails(this.user, userCredential).then(() => {
           this.router.navigate(['/home']);
           loading.dismiss();
         }).catch(error => {

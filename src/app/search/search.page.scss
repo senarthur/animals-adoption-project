@@ -1,15 +1,24 @@
-ion-toolbar {
-    --background: var(--bg-primary);
-    --min-height: 15vh;
+ion-header {
+    ion-toolbar {
+        --background: var(--bg-primary);
+        --padding-top: 20px;
+        // --min-height: 15vh;
+        
+        ion-searchbar {
+            --box-shadow: none;
+            --background: var(--bg-secondary);
+            --color: var(--color-primary);
+        }
     
-    ion-searchbar {
-        --box-shadow: none;
-        --background: var(--bg-secondary);
-        --color: var(--color-primary);
     }
-
+    
     .chips {
+        position: relative;
+        width: 150%;
+        display: flex;
         padding-top: 10px;
+        overflow-x: auto;
+        padding-bottom: 20px;
     }
 }
 
@@ -18,11 +27,16 @@ ion-content {
     background: var(--bg-primary);
     
     #container {
-        min-height: 79vh;
+        width: 100%;
+        min-height: 100%;
         background: var(--bg-secondary);
         border-top-left-radius: 40px;
         border-top-right-radius: 40px;
-        padding: 30px;
+        padding: 20px;
+
+        app-cards {
+            width: 100%;
+        }
         
         p {
             margin-top: 20px;

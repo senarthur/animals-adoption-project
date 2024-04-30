@@ -9,6 +9,7 @@ ion-toolbar {
 }
 
 ion-content { 
+    --keyboard-offset: 0px !important;
     z-index: 10;
     background: var(--bg-primary);
     height: 100vh;

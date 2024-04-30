@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { IUser, createUser } from '../interfaces/user.interface';
-import { FormService } from '../services/form.service';
+import { AnimalService } from '../services/animal.service';
 import { Auth } from '@angular/fire/auth';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
@@ -37,13 +37,13 @@ export class ProfileDataPage implements OnInit {
   
   personalData!: FormGroup;
 
-  constructor(private formService: FormService, private auth: Auth, private formBuilder: FormBuilder) { }
+  constructor(private animalService: AnimalService, private auth: Auth, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     const uid = this.auth.currentUser?.uid;
     if(uid) {
       this.uid = uid;
-      this.formService.getUser(uid).then(userResponse => {
+      this.animalService.getUser(uid).then(userResponse => {
         this.user = userResponse.data() as IUser;
         this.initForm();
       })
@@ -75,7 +75,6 @@ export class ProfileDataPage implements OnInit {
   }
 
   saveChanges() {
-    console.log(this.personalData);
     if(this.personalData.valid) {
       this.isOnEdit = !this.isOnEdit;
       this.personalData.get('fullName')?.disable();
@@ -83,7 +82,7 @@ export class ProfileDataPage implements OnInit {
       this.personalData.get('email')?.disable();
       this.personalData.get('image')?.disable();
       const user = this.updateUser();
-      this.formService.updateUser(this.uid, user);
+      this.animalService.updateUser(this.uid, user);
     } else {
       console.log('não é valido')
     }
@@ -91,7 +90,7 @@ export class ProfileDataPage implements OnInit {
 
   private updateUser(): IUser {
     const form = this.personalData.value;
-    let imageUrl = form.image;
+    let imageUrl = this.imageUrl;
     if (imageUrl == '') imageUrl = this.user.photoUrl;
     return {
       name: form.fullName,
@@ -124,6 +123,7 @@ export class ProfileDataPage implements OnInit {
       this.imageUrl = await getDownloadURL(fileRef);
       this.user.photoUrl = this.imageUrl;
       this.progress = -1;
+      console.log(this.imageUrl);
     })
 
     return true;

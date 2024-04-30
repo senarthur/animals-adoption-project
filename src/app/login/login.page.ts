@@ -1,4 +1,4 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonicModule } from '@ionic/angular';
@@ -8,7 +8,7 @@ import { addIcons } from 'ionicons';
 import { eye, eyeOff } from 'ionicons/icons'
 import { Router, RouterLink } from '@angular/router';
 import { LoadingController } from '@ionic/angular/standalone';
-import { LoginServiceService } from '../services/loginService.service';
+import { AuthService } from '../services/auth.service.';
 import { IUser, createUser } from '../interfaces/user.interface';
 
 @Component({
@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private loadingController: LoadingController,
-    private loginService: LoginServiceService,
+    private authService: AuthService,
     private router: Router) {
     addIcons({ eye, eyeOff })
    }
@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
         message: 'Carregando...'
       });
       await loading.present();
-      const user = await this.loginService.signIn(this.loginForm.value.email, this.loginForm.value.password).catch(error => {
+      const user = await this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password).catch(error => {
         console.log("Erro ao entrar" + error);
         loading.dismiss();
         this.isUserValid = false;
@@ -83,7 +83,7 @@ export class LoginPage implements OnInit {
   }
 
   async signInWithGoogle() {
-    this.loginService.signInWithGoogle().then((result) => {
+    this.authService.signInWithGoogle().then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       if(credential) {
         // const token = credential.accessToken;
@@ -98,7 +98,7 @@ export class LoginPage implements OnInit {
             adoptedPets: [],
             registeredPets: []
           }
-          this.loginService.saveUserBasicDetailsGoogle(this.userGoogle, user.uid);
+          this.authService.saveUserBasicDetailsGoogle(this.userGoogle, user.uid);
         }
         this.router.navigateByUrl('/home');
       }

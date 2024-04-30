@@ -10,8 +10,4 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 export class AppComponent {
   constructor() {}
 
-
-  /*
-   * 3- Olhar porque o reactive forms dá o problema de mais de um id.
-   */
 }

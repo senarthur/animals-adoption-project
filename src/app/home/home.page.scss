@@ -1,5 +1,6 @@
 ion-header {
   z-index: 20;
+  --background: none;
 }
 
 ion-toolbar {
@@ -22,9 +23,7 @@ ion-toolbar {
 }
 
 ion-content { 
-  position: relative;
   z-index: 10;
-  background: var(--bg-primary);
   
   #container {
     background: var(--bg-secondary);

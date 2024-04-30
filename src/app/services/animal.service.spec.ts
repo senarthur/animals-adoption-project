@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FormService } from './form.service';
+import { AnimalService } from './animal.service';
 
 describe('FormService', () => {
-  let service: FormService;
+  let service: AnimalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FormService);
+    service = TestBed.inject(AnimalService);
   });
 
   it('should be created', () => {

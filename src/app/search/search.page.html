@@ -1,12 +1,13 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-searchbar #searchbar (change)="search(searchbar)"></ion-searchbar>
-    <div class="chips" #chips>
-      <app-chip (click)="onSelected(small)" #small text="Pequeno Porte"></app-chip>
-      <app-chip (click)="onSelected(medium)" #medium text="Médio Porte"></app-chip>
-      <app-chip (click)="onSelected(big)" #big text="Grande Porte"></app-chip>
-    </div>
   </ion-toolbar>
+  <div class="chips" #chips>
+    <app-chip (click)="onSelected(all)" #all text="Tudo"></app-chip>
+    <app-chip (click)="onSelected(small)" #small text="Pequeno Porte"></app-chip>
+    <app-chip (click)="onSelected(medium)" #medium text="Médio Porte"></app-chip>
+    <app-chip (click)="onSelected(big)" #big text="Grande Porte"></app-chip>
+  </div>
 </ion-header>
 
 <ion-content>

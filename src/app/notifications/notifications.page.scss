@@ -3,7 +3,7 @@ ion-content {
   background: var(--bg-primary);
   
   #container {
-    min-height: calc(100vh - 15vh);
+    min-height: 100%;
     background: var(--bg-secondary);
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;

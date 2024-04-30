@@ -1,12 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonToggle, IonButtons } from '@ionic/angular/standalone';
 import { FooterComponent } from '../components/footer/footer.component';
 import { CardsComponent } from '../components/cards/cards.component';
 
 import { moon, sunnyOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { FormService } from '../services/form.service';
-import { Subscription, tap } from 'rxjs';
+import { AnimalService } from '../services/animal.service';
+import { Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
@@ -39,31 +39,27 @@ export class HomePage implements OnInit {
 
   darkMode: boolean = false;
   
-  private _formService = inject(FormService);
   animals: IAnimal[] = [];
-  animals$ = this._formService.getAnimals();
-
   goldenPets: IAnimal[] = [];
   sdrPets: IAnimal[] = [];
+
+  private limit = 10;
   
-  constructor(private auth: Auth) { 
+  constructor(private auth: Auth, private animalService: AnimalService) { 
     addIcons({ moon, sunnyOutline });
   }
   
   ngOnInit(): void {
     const uid = this.auth.currentUser?.uid;
     if(uid) {
-      this._formService.getUser(uid).then(userResponse => {
+      this.animalService.getUser(uid).then(userResponse => {
         const user: IUser = userResponse.data() as IUser;
         const fullName = user.name.split(' ');
         this.user = fullName[0];
       })
     }
-    // TESTE COM OBSERVABLE ADICIONANDO EM UMA OUTRA VARIAVEL EM VEZ DE ADICIONR O ASYN PIPE NO HTML
-    // this._formService.getAnimals().subscribe((value) => {
-    //   this.animals = value;
-    //   console.log(this.animals.filter(animal => animal.userId == ''))
-    // })
+
+    this.getRecentlyRegistereds();
     this.getGoldenPets();
     this.getSdrPets();
   }
@@ -78,8 +74,16 @@ export class HomePage implements OnInit {
     }
   }
 
+  async getRecentlyRegistereds() {
+    this.animalService.getRecentlyRegistereds().then(animals => {
+      animals?.forEach((animal) => {
+        this.animals.push({ ...animal.data(), id: animal.id } as IAnimal);
+      })
+    })
+  }
+
   async getGoldenPets() {
-    this._formService.getAnimalByName('Golden Retriever').then(animals => {
+    this.animalService.getAnimalByName('Golden Retriever', this.limit).then(animals => {
       animals?.forEach((animal) => {
         this.goldenPets.push({ ...animal.data(), id: animal.id } as IAnimal);
       })
@@ -87,7 +91,7 @@ export class HomePage implements OnInit {
   }
 
   async getSdrPets() {
-    this._formService.getAnimalByName('SRD').then(animals => {
+    this.animalService.getAnimalByName('SRD', this.limit).then(animals => {
       animals?.forEach((animal) => {
         this.sdrPets.push({ ...animal.data(), id: animal.id } as IAnimal);
       })
