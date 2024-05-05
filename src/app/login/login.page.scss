@@ -19,6 +19,13 @@ ion-content {
         font-size: 14px;
     }
 
+    .error-msg{
+        text-align: left;
+        margin-top: -20px;
+        color: var(--color-danger);
+        font-size: 14px;
+    }
+
     form {
         width: 80%;
         
