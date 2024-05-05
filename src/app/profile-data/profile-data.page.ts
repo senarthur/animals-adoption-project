@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from '../components/header/header.component';
 import { FooterComponent } from '../components/footer/footer.component';
@@ -32,6 +32,10 @@ export class ProfileDataPage implements OnInit {
   uid: string = '';
   imageUrl: string = '';
   progress: number = -1;
+  
+  isEmailUpdated: boolean = false;
+  showToast: boolean = false;
+  message: string = '';
 
   @ViewChild('image') input?: ElementRef;
   private _storage = inject(Storage);
@@ -51,9 +55,9 @@ export class ProfileDataPage implements OnInit {
     }
 
     this.personalData = this.formBuilder.group({
-      fullName: [{value: '', disabled: true}],
-      phone: [{value: '', disabled: true}],
-      email: [{value: '', disabled: true}, Validators.email],
+      fullName: [{value: '', disabled: true}, Validators.required],
+      phone: [{value: '', disabled: true}, Validators.required],
+      email: [{value: '', disabled: true}, [Validators.required ,Validators.email]],
       image: [{value: '', disabled: true}]
     })
   }
@@ -77,16 +81,26 @@ export class ProfileDataPage implements OnInit {
 
   saveChanges() {
     if(this.personalData.valid) {
-      this.isOnEdit = !this.isOnEdit;
-      this.personalData.get('fullName')?.disable();
-      this.personalData.get('phone')?.disable();
-      this.personalData.get('email')?.disable();
-      this.personalData.get('image')?.disable();
       const user = this.updateUser();
-      this.animalService.updateUser(this.uid, user);
-      this.authService.updateEmail(user.email);
+      this.authService.updateEmail(user.email).then((value) => {
+        this.isEmailUpdated = value
+        if (this.isEmailUpdated) {
+          this.animalService.updateUser(this.uid, user)
+          this.isOnEdit = !this.isOnEdit;
+          this.personalData.get('fullName')?.disable();
+          this.personalData.get('phone')?.disable();
+          this.personalData.get('email')?.disable();
+          this.personalData.get('image')?.disable();
+          this.message = 'Dados atualizados com sucesso!'
+          this.showToast = true;
+        } else {
+          this.message = 'Não foi possível atualizar os dados. Tente novamente.'
+          this.showToast = true;
+        }
+      });
     } else {
-      console.log('não é valido')
+      this.message = 'O formuário não é válido';
+      this.showToast = true;
     }
   }
 

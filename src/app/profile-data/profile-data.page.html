@@ -66,6 +66,13 @@
         }
       </ion-list>
     </form>
+    <ion-toast
+          [isOpen]="showToast"
+          [message]="message"
+          [duration]="3000"
+          (didDismiss)="showToast = false"
+          swipeGesture="vertical"
+    ></ion-toast>
   </div>
 </ion-content>
 

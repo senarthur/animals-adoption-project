@@ -47,13 +47,19 @@ export class AuthService {
     return await setDoc(doc(this.firestore, 'users', uid), user)
   }
 
-  async updateEmail(email: string) {
+  async updateEmail(email: string): Promise<boolean> {
     const user = this.fireAuth.currentUser;
+    let valid = false;
     if (user) {
-      updateEmail(user, email).then(() => {
-        console.log('E-mail atualizado');
-      }).catch(err => console.log(err));
+      try {
+        await updateEmail(user, email);
+        valid = true;
+      } catch(err) {
+        console.log(err)
+        valid = false;
+      };
     }
+    return valid;
   }
   
   getAuth() {

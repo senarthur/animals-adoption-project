@@ -26,3 +26,7 @@ ion-content::part(background) {
     background: none;
     z-index: 0;
 }
+
+ion-toast {
+    --background: var(--bg-primary);
+}
