@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { IBreed } from '../interfaces/breed.interface';
-import { Firestore, collectionData } from '@angular/fire/firestore';
-import { Timestamp, addDoc, and, collection, deleteDoc, doc, getDoc, getDocs, limit, or, query, updateDoc, where } from 'firebase/firestore';
+import { Firestore, collectionChanges, collectionData } from '@angular/fire/firestore';
+import { DocumentData, QuerySnapshot, Timestamp, addDoc, and, collection, deleteDoc, doc, getDoc, getDocs, limit, onSnapshot, or, query, updateDoc, where } from 'firebase/firestore';
 
 import { IAnimal, ISize, IVaccines, createAnimal } from '../interfaces/animal.interface';
 import { Auth } from '@angular/fire/auth';
@@ -77,7 +77,7 @@ export class AnimalService {
       return null;
     }
   }
-  
+
   async getAnimalById(id: string) {
     try {
       const document = doc(this._firestore, 'animals', id);
@@ -184,14 +184,10 @@ export class AnimalService {
     return await deleteDoc(doc(this._firestore, 'animals', id));
   }
 
-  async teste() {
-    try {
-      const q = query(this._animals_collection, where("name", "==", 'Snow'));
-      const snapshot = await getDocs(q);
-      return snapshot;
-    } catch(error) {
-      console.log("Erro ao realizar a consulta");
-      return null;
-    }
+  static timestampToDate(timestamp: Timestamp): string {
+    const date: Date = timestamp.toDate();
+    const formater = new Intl.DateTimeFormat("pt-BR");
+    
+    return formater.format(date);
   }
 }

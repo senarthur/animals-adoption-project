@@ -43,7 +43,7 @@ export class HomePage implements OnInit {
   goldenPets: IAnimal[] = [];
   sdrPets: IAnimal[] = [];
 
-  private limit = 10;
+  private limit = 15;
   
   constructor(private auth: Auth, private animalService: AnimalService) { 
     addIcons({ moon, sunnyOutline });
@@ -78,6 +78,7 @@ export class HomePage implements OnInit {
     this.animalService.getRecentlyRegistereds().then(animals => {
       animals?.forEach((animal) => {
         this.animals.push({ ...animal.data(), id: animal.id } as IAnimal);
+        AnimalService.timestampToDate(animal.data()['registeredAt']);
       })
     })
   }

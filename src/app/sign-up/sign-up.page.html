@@ -22,6 +22,12 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('fullName')?.errors?.['required'] && registerForm.get('fullName')?.touched) {
+          <p>Nome é obrigatório</p>
+        }
+        @if (registerForm.get('fullName')?.errors?.['minlength']) {
+          <p>O nome deve possuir no mínimo 3 caracteres</p>
+        }
 
         <ion-item>
           <ion-input
@@ -33,6 +39,9 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('birthDate')?.errors?.['required'] && registerForm.get('birthDate')?.touched) {
+          <p>Data de Nascimento é obrigatório</p>
+        }
 
         <ion-item>
           <ion-input
@@ -45,6 +54,9 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('phone')?.errors?.['required'] && registerForm.get('phone')?.touched) {
+          <p>Telefone é obrigatório</p>
+        }
 
         <ion-item>
           <ion-input
@@ -57,6 +69,9 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched) {
+          <p>E-mail é obrigatório</p>
+        }
 
         <ion-item>
           <ion-input
@@ -68,6 +83,12 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched) {
+          <p>Senha é obrigatório</p>
+        }
+        @if (registerForm.get('password')?.errors?.['minlength']) {
+          <p>A senha deve ter no mínimo 6 caracteres</p>
+        }
 
         <ion-item>
           <ion-input
@@ -79,8 +100,17 @@
           >
           </ion-input>
         </ion-item>
+        @if (registerForm.get('confirmPassword')?.errors?.['passwordMatchValidator']) {
+          <p>Senhas não conferem</p>
+        }
         <ion-button type="submit" expand="block">Cadastrar</ion-button>
       </ion-list>
     </form>
+    <ion-toast
+        [isOpen]="!formValid"
+        [message]="message"
+        [duration]="3000"
+        (didDismiss)="setFormValid(true)"
+      ></ion-toast>
   </div>
 </ion-content>

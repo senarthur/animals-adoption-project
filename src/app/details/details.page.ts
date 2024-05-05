@@ -74,12 +74,10 @@ export class DetailsPage implements OnInit {
   private async getSuggestion() {
     const filterAnimals: IAnimal[] = [];
     await this.animalService.getAnimalByName(this.animal.breed, ++this.limit).then(animals => {
-      console.log(this.limit)
       animals?.forEach(animal => {
         filterAnimals.push({ ...animal.data(), id: animal.id } as IAnimal)
       })
       this.moreAnimals = filterAnimals.filter(animal => animal.id != this.id);
-      console.log(this.moreAnimals);
     })
   }
 

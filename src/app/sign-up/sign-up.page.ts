@@ -8,7 +8,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { IUser, createUser } from '../interfaces/user.interface';
-import { passwordMatchValidator } from './password.validator';
+import { CustomValidators } from './password.validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -29,6 +29,9 @@ export class SignUpPage implements OnInit {
   registerForm!: FormGroup;
   user: IUser = createUser();
 
+  formValid: boolean = true;
+  message: string = '';
+  
   constructor(private formBuilder: FormBuilder, 
     private loadingController: LoadingController, 
     private authService: AuthService,
@@ -36,12 +39,12 @@ export class SignUpPage implements OnInit {
 
   ngOnInit() {
     this.registerForm = new FormGroup({
-      fullName: new FormControl('', Validators.required),
+      fullName: new FormControl('', [Validators.required, Validators.minLength(3)]),
       birthDate: new FormControl('', Validators.required),
       phone: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+      confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6), CustomValidators.passwordMatchValidator('password')])
     });
   }
 
@@ -57,13 +60,18 @@ export class SignUpPage implements OnInit {
           this.router.navigate(['/home']);
           loading.dismiss();
         }).catch(error => {
-          console.log('Erro ao adicionar o usuário no firebase: ', error)
           loading.dismiss();
+          this.message = 'Erro ao registrar';
+          this.formValid = false;
         })
       }).catch(error => {
-        console.log("Erro ao registrar" + error);
         loading.dismiss();
+        this.message = 'Erro ao registrar';
+        this.formValid = false;
       })
+    } else {
+      this.formValid = false;
+      this.message = 'O formulário não está válido!';
     }
 
     loading.dismiss();
@@ -87,5 +95,9 @@ export class SignUpPage implements OnInit {
     const now = new Date();
     let difference = now.getTime() - value.getTime();
     return Math.floor(difference / (1000 * 60 * 60 * 24 * 365.25));
+  }
+
+  setFormValid(boolean: boolean) {
+    this.formValid = boolean;
   }
 }

@@ -52,7 +52,7 @@ export class NotificationService {
   }
 
   getNotification(): INotification[] {
-    return this.notifications;
+    return this.notifications.reverse();
   }
 
   private noReadNotificationsCount() {
