@@ -3,6 +3,7 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendP
 import { IUser } from '../interfaces/user.interface';
 import { Firestore, setDoc } from '@angular/fire/firestore';
 import { doc } from 'firebase/firestore';
+import { updateEmail } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,15 @@ export class AuthService {
     return await setDoc(doc(this.firestore, 'users', uid), user)
   }
 
+  async updateEmail(email: string) {
+    const user = this.fireAuth.currentUser;
+    if (user) {
+      updateEmail(user, email).then(() => {
+        console.log('E-mail atualizado');
+      }).catch(err => console.log(err));
+    }
+  }
+  
   getAuth() {
     return this.fireAuth;
   }

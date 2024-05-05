@@ -9,6 +9,7 @@ import { AnimalService } from '../services/animal.service';
 import { Auth } from '@angular/fire/auth';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { Storage } from '@angular/fire/storage';
+import { AuthService } from '../services/auth.service.';
 
 @Component({
   selector: 'app-profile-data',
@@ -37,7 +38,7 @@ export class ProfileDataPage implements OnInit {
   
   personalData!: FormGroup;
 
-  constructor(private animalService: AnimalService, private auth: Auth, private formBuilder: FormBuilder) { }
+  constructor(private animalService: AnimalService, private auth: Auth, private formBuilder: FormBuilder, private authService: AuthService) { }
 
   ngOnInit() {
     const uid = this.auth.currentUser?.uid;
@@ -83,6 +84,7 @@ export class ProfileDataPage implements OnInit {
       this.personalData.get('image')?.disable();
       const user = this.updateUser();
       this.animalService.updateUser(this.uid, user);
+      this.authService.updateEmail(user.email);
     } else {
       console.log('não é valido')
     }
